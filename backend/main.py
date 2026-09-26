@@ -1,6 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request as StarletteRequest
 from contextlib import asynccontextmanager
 import uuid
 import os
@@ -24,6 +26,17 @@ async def lifespan(app: FastAPI):
     yield
     print("ShadowCounsel backend shutting down.")
 
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Add security headers to all responses."""
+    async def dispatch(self, request: StarletteRequest, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+        return response
+
 app = FastAPI(
     title="ShadowCounsel",
     description="Adversarial AI legal document analyzer for Indian contracts",
@@ -39,6 +52,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(SecurityHeadersMiddleware)
 
 # === Health Check ===
 @app.get("/health")
@@ -75,7 +89,14 @@ async def upload_document(
     os.makedirs(upload_dir, exist_ok=True)
     file_path = os.path.join(upload_dir, f"{session_id}{file_ext}")
     
+    # Validate file size (max 10MB)
+    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
     content = await file.read()
+    if len(content) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=413,
+            detail="File too large. Maximum allowed size is 10MB."
+        )
     with open(file_path, "wb") as f:
         f.write(content)
     
@@ -190,6 +211,8 @@ async def whatif_scenario(query: dict):
     scenario = query.get("scenario")
     if not session_id or not scenario:
         raise HTTPException(status_code=400, detail="session_id and scenario are required")
+    if len(scenario) > 2000:
+        raise HTTPException(status_code=400, detail="Scenario text too long. Maximum 2000 characters.")
     session = await get_session(session_id)
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")

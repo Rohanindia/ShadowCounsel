@@ -31,6 +31,9 @@ export default function DocumentUpload({ onUpload, isUploading }: DocumentUpload
 
   return (
     <div
+      role="region"
+      aria-label="Document upload area"
+      aria-busy={isUploading}
       onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
@@ -43,12 +46,18 @@ export default function DocumentUpload({ onUpload, isUploading }: DocumentUpload
       {/* Background glow orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-violet-600/10 rounded-full blur-3xl pointer-events-none group-hover:bg-violet-600/20 transition-all duration-500" />
 
+      <label htmlFor="document-upload" className="sr-only">
+        Upload a legal document (PDF, DOCX, or image)
+      </label>
       <input
+        id="document-upload"
         type="file"
         accept=".pdf,.docx,.doc,.png,.jpg,.jpeg,.tiff,.bmp"
         onChange={handleFileSelect}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         disabled={isUploading}
+        aria-label="Upload contract or legal document"
+        aria-describedby="upload-formats"
       />
       
       {isUploading ? (
