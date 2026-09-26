@@ -1,0 +1,1 @@
+"""Negotiation pack generator."""

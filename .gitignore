@@ -1,0 +1,96 @@
+# ============================================
+# API Keys, Secrets & Environment Variables
+# ============================================
+.env
+.env.*
+*.env
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Backend specific environment files
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.local
+
+# ============================================
+# Databases & Local Storage
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+shadowcounsel.db
+backend/shadowcounsel.db
+chroma_store/
+backend/chroma_store/
+
+# ============================================
+# Uploaded & Confidential User Documents
+# ============================================
+uploads/
+backend/uploads/
+*.pdf
+!backend/test_data/*.pdf
+
+# ============================================
+# Python & Virtual Environments
+# ============================================
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ============================================
+# Node & Frontend Build Artifacts
+# ============================================
+node_modules/
+*/node_modules/
+.next/
+*/.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.tsbuildinfo
+
+# ============================================
+# Operating System & IDE Files
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace

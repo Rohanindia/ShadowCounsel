@@ -1,0 +1,32 @@
+# API Keys & Secrets
+.env
+.env.*
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+
+# Databases & Vector Stores
+shadowcounsel.db
+*.db
+*.sqlite
+*.sqlite3
+chroma_store/
+
+# Uploaded Files
+uploads/
+*.pdf
+!test_data/*.pdf
+
+# Packaging
+*.egg-info/
+dist/
+build/
