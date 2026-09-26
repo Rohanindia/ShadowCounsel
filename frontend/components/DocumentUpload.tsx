@@ -89,11 +89,11 @@ export default function DocumentUpload({ onUpload, isUploading }: DocumentUpload
             </p>
           </div>
           
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400">
-            <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">PDF</span>
-            <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">DOCX</span>
-            <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">Scanned Images (OCR)</span>
-            <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">Case Briefs</span>
+          <div id="upload-formats" className="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400" role="list" aria-label="Supported file formats">
+            <span role="listitem" className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">PDF</span>
+            <span role="listitem" className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">DOCX</span>
+            <span role="listitem" className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">Scanned Images (OCR)</span>
+            <span role="listitem" className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5">Case Briefs</span>
           </div>
         </div>
       )}
